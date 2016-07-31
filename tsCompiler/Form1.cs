@@ -25,18 +25,19 @@ namespace tsCompiler
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string returnString = runCmd("tsc " + listFolderFiles.SelectedItem.ToString(), listFolders.SelectedItem.ToString());
-            if(returnString.Trim() == "")
+            if (listFolderFiles.SelectedItems.Count > 0)
             {
-                //everything went fine!
-            }
-            else
-            {
-                string br = (char)13 + "";
-                MessageBox.Show("Errors were found: " + br + returnString);
-            }
-            
-            
+                string returnString = runCmd("tsc " + listFolderFiles.SelectedItem.ToString(), listFolders.SelectedItem.ToString());
+                if (returnString.Trim() == "")
+                {
+                    //everything went fine!
+                }
+                else
+                {
+                    string br = (char)13 + "";
+                    MessageBox.Show("Errors were found: " + br + returnString);
+                }
+            }            
         }
 
 
@@ -96,7 +97,7 @@ namespace tsCompiler
         {
             //Clear the list and add the new files
             listFolderFiles.Items.Clear();
-
+            btnCompileFile.Enabled = false;
 
             if (listFolders.SelectedItems.Count > 0)
             {
@@ -104,8 +105,7 @@ namespace tsCompiler
                 string[] files = Directory.GetFiles(@folder);           // The files inside it
                 
                 for (int i = 0; i < files.Length; i++)
-                {
-                    // filename
+                {                 
                     string filename = files[i];
                     filename = filename.Replace(folder + "\\", "");
 
@@ -116,14 +116,26 @@ namespace tsCompiler
                     }
                 }
             }
-
         }
 
+        //Remove a folder
         private void btnRemoveFolder_Click(object sender, EventArgs e)
         {
             if(listFolders.SelectedItems.Count > 0)
             {                
                 listFolders.Items.RemoveAt(listFolders.SelectedIndex);
+            }
+        }
+
+        private void listFolderFiles_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            if(listFolderFiles.SelectedItems.Count>0)
+            {
+                btnCompileFile.Enabled = true;
+            }
+            else
+            {
+                btnCompileFile.Enabled = false;
             }
         }
     }

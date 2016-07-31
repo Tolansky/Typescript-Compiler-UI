@@ -38,6 +38,7 @@
             // 
             // btnCompileFile
             // 
+            this.btnCompileFile.Enabled = false;
             this.btnCompileFile.Location = new System.Drawing.Point(408, 39);
             this.btnCompileFile.Name = "btnCompileFile";
             this.btnCompileFile.Size = new System.Drawing.Size(103, 23);
@@ -51,7 +52,7 @@
             this.listFolders.FormattingEnabled = true;
             this.listFolders.Location = new System.Drawing.Point(8, 39);
             this.listFolders.Name = "listFolders";
-            this.listFolders.Size = new System.Drawing.Size(170, 212);
+            this.listFolders.Size = new System.Drawing.Size(227, 212);
             this.listFolders.TabIndex = 1;
             this.listFolders.SelectedIndexChanged += new System.EventHandler(this.listFolders_SelectedIndexChanged);
             // 
@@ -72,10 +73,11 @@
             // listFolderFiles
             // 
             this.listFolderFiles.FormattingEnabled = true;
-            this.listFolderFiles.Location = new System.Drawing.Point(185, 39);
+            this.listFolderFiles.Location = new System.Drawing.Point(241, 39);
             this.listFolderFiles.Name = "listFolderFiles";
-            this.listFolderFiles.Size = new System.Drawing.Size(217, 212);
+            this.listFolderFiles.Size = new System.Drawing.Size(161, 212);
             this.listFolderFiles.TabIndex = 4;
+            this.listFolderFiles.SelectedIndexChanged += new System.EventHandler(this.listFolderFiles_SelectedIndexChanged_1);
             // 
             // btnRemoveFolder
             // 
