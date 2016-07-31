@@ -26,6 +26,7 @@ namespace tsCompiler
             loadFolders();
         }
 
+        //Load folders from file into the system
         public void loadFolders()
         {
             string[] folders = System.IO.File.ReadAllLines(@saveFileName);
@@ -33,9 +34,9 @@ namespace tsCompiler
             {
                 listFolders.Items.Add(folders[i]);
             }
-
         }
 
+        //Save folders from the system into the file
         public void saveFolders()
         {
             string[] folders = new string[listFolders.Items.Count];
@@ -45,14 +46,15 @@ namespace tsCompiler
             }
 
             System.IO.File.WriteAllLines(@saveFileName, folders);
-
         }
 
+
+        //Compile button
         private void button1_Click(object sender, EventArgs e)
         {
             if (listFolderFiles.SelectedItems.Count > 0)
             {
-                string returnString = runCmd("tsc " + listFolderFiles.SelectedItem.ToString(), listFolders.SelectedItem.ToString());
+                string returnString = compile(listFolders.SelectedItem.ToString(), listFolderFiles.SelectedItem.ToString());
                 if (returnString.Trim() == "")
                 {
                     //everything went fine!
@@ -63,6 +65,12 @@ namespace tsCompiler
                     MessageBox.Show("Errors were found: " + br + returnString);
                 }
             }
+        }
+
+        //Compile function
+        public string compile(string folder, string file)
+        {
+            return runCmd("tsc " + file, folder);
         }
 
 
@@ -110,14 +118,7 @@ namespace tsCompiler
             }
             saveFolders();
         }
-
-        //
-        private void listFolderFiles_SelectedIndexChanged(object sender, EventArgs e)
-        {            
-            string filename = listFolderFiles.SelectedItem.ToString();
-        }
-
-
+        
         //Select a folder
         private void listFolders_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -154,6 +155,7 @@ namespace tsCompiler
             saveFolders();
         }
 
+        //Select a file
         private void listFolderFiles_SelectedIndexChanged_1(object sender, EventArgs e)
         {
             if(listFolderFiles.SelectedItems.Count>0)
