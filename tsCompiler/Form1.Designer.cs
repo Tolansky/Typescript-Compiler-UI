@@ -28,12 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.btnCompileFile = new System.Windows.Forms.Button();
             this.listFolders = new System.Windows.Forms.ListBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.cmdOpenFolder = new System.Windows.Forms.Button();
             this.listFolderFiles = new System.Windows.Forms.ListBox();
             this.btnRemoveFolder = new System.Windows.Forms.Button();
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.SuspendLayout();
             // 
             // btnCompileFile
@@ -93,6 +95,11 @@
             this.btnRemoveFolder.UseVisualStyleBackColor = true;
             this.btnRemoveFolder.Click += new System.EventHandler(this.btnRemoveFolder_Click);
             // 
+            // notifyIcon1
+            // 
+            this.notifyIcon1.Text = "notifyIcon1";
+            this.notifyIcon1.Visible = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -121,6 +128,7 @@
         private System.Windows.Forms.Button cmdOpenFolder;
         private System.Windows.Forms.ListBox listFolderFiles;
         private System.Windows.Forms.Button btnRemoveFolder;
+        private System.Windows.Forms.NotifyIcon notifyIcon1;
     }
 }
 

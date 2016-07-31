@@ -20,6 +20,9 @@ namespace tsCompiler
         static private Hashtable folders = new Hashtable();
         static private Hashtable ALLfolders = new Hashtable();
 
+        public static NotifyIcon Notifier { get { return notifier; } }
+        private static NotifyIcon notifier;
+
         public Form1()
         {
             InitializeComponent();
@@ -28,7 +31,18 @@ namespace tsCompiler
         private void Form1_Load(object sender, EventArgs e)
         {
             loadFolders();
+            
+
+            this.WindowState = FormWindowState.Minimized;
+            notifyIcon1.Icon = new Icon(SystemIcons.Application, 40, 40);
+            notifyIcon1.Visible = true;
+            notifier = this.notifyIcon1;
+            this.FormClosed += delegate { notifier = null; };
+
         }
+
+   
+
 
         //Load folders from file into the system
         public void loadFolders()
@@ -81,7 +95,15 @@ namespace tsCompiler
         //Compile function
         public static string compile(string folder, string file)
         {
-            return runCmd("tsc " + file, folder);
+            string msg = runCmd("tsc " + file, folder); 
+            if (msg.Trim() != "")     
+            {
+                notifier.BalloonTipText = msg;
+                notifier.BalloonTipIcon = ToolTipIcon.Error;
+                notifier.BalloonTipTitle = "Alert!";
+                notifier.ShowBalloonTip(500);
+            }
+            return msg;
         }
 
 
@@ -253,10 +275,5 @@ namespace tsCompiler
             }
         }
 
-
-        public string getPathOfString(string path)
-        {
-            return Path.GetDirectoryName(path);
-        }
     }
 }
