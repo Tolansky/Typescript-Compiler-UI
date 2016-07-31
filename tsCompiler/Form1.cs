@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,9 @@ namespace tsCompiler
     public partial class Form1 : Form
     {
         static private string saveFileName = "folders.txt";
+        static private Hashtable watchers = new Hashtable();
+        static private Hashtable folders = new Hashtable();
+        static private Hashtable ALLfolders = new Hashtable();
 
         public Form1()
         {
@@ -34,6 +38,9 @@ namespace tsCompiler
             {
                 listFolders.Items.Add(folders[i]);
             }
+            
+            assignWatchers();
+            resetFolders();
         }
 
         //Save folders from the system into the file
@@ -46,6 +53,10 @@ namespace tsCompiler
             }
 
             System.IO.File.WriteAllLines(@saveFileName, folders);
+
+            
+            assignWatchers();
+            resetFolders();
         }
 
 
@@ -166,6 +177,83 @@ namespace tsCompiler
             {
                 btnCompileFile.Enabled = false;
             }
+        }
+
+        //Assign watchers
+        public void assignWatchers()
+        {
+            if (watchers.Keys.Count > 0)
+            {
+                //Disable current watchers
+                foreach (string s in watchers.Keys)
+                {
+                    FileSystemWatcher w = (FileSystemWatcher)watchers[s];
+                    w.Changed -= new FileSystemEventHandler(OnChanged);
+                    w.EnableRaisingEvents = false;
+                    w.Dispose();
+                    w = null;                    
+                }
+                watchers.Clear();
+            }
+
+            //Get the folders into an array
+            string[] foldersArr = new string[listFolders.Items.Count];
+            for (int i = 0; i < listFolders.Items.Count; i++)
+            {
+                foldersArr[i] = listFolders.Items[i].ToString();
+
+                if (!watchers.ContainsKey(foldersArr[i]) && !ALLfolders.ContainsKey(foldersArr[i])) 
+                {
+                    FileSystemWatcher watcher = new FileSystemWatcher();
+                    watcher.Path = foldersArr[i];
+                    watcher.NotifyFilter = NotifyFilters.LastWrite;
+                    watcher.Filter = "*.ts";
+                    watcher.Changed += new FileSystemEventHandler(OnChanged);
+                    watcher.EnableRaisingEvents = true;
+
+                    watchers.Add(foldersArr[i], new FileSystemWatcher());
+                }
+            }          
+        }
+
+        public void resetFolders()
+        {
+            folders.Clear();
+            for (int i = 0; i < listFolders.Items.Count; i++)
+            {
+                string key = listFolders.Items[i].ToString();
+                folders.Add(key, 1);
+                if (!ALLfolders.ContainsKey(key))
+                { 
+                    ALLfolders.Add(key, 1);
+                }
+            }
+        }
+
+        // Define the event handlers.
+        private static void OnChanged(object source, FileSystemEventArgs e)
+        {
+            FileSystemWatcher fsw = (FileSystemWatcher)source;
+            try
+            {
+                string fullPath = e.FullPath;
+                string dir = Path.GetDirectoryName(fullPath);
+                if (folders.ContainsKey(dir))
+                {
+                    fsw.EnableRaisingEvents = false;
+                    MessageBox.Show("File: " + e.FullPath + " " + e.ChangeType);
+                }
+            }
+            finally
+            {
+                fsw.EnableRaisingEvents = true;
+            }
+        }
+
+
+        public string getPathOfString(string path)
+        {
+            return Path.GetDirectoryName(path);
         }
     }
 }

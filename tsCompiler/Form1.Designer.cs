@@ -38,7 +38,10 @@
             // 
             // btnCompileFile
             // 
+            this.btnCompileFile.BackColor = System.Drawing.Color.White;
             this.btnCompileFile.Enabled = false;
+            this.btnCompileFile.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnCompileFile.ForeColor = System.Drawing.SystemColors.ControlText;
             this.btnCompileFile.Location = new System.Drawing.Point(408, 39);
             this.btnCompileFile.Name = "btnCompileFile";
             this.btnCompileFile.Size = new System.Drawing.Size(103, 23);
@@ -64,9 +67,10 @@
             // 
             this.cmdOpenFolder.Location = new System.Drawing.Point(8, 10);
             this.cmdOpenFolder.Name = "cmdOpenFolder";
-            this.cmdOpenFolder.Size = new System.Drawing.Size(170, 23);
+            this.cmdOpenFolder.Size = new System.Drawing.Size(102, 23);
             this.cmdOpenFolder.TabIndex = 3;
-            this.cmdOpenFolder.Text = "open a folder";
+            this.cmdOpenFolder.Text = "Open a folder..";
+            this.cmdOpenFolder.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.cmdOpenFolder.UseVisualStyleBackColor = true;
             this.cmdOpenFolder.Click += new System.EventHandler(this.cmdOpenFolder_Click);
             // 
