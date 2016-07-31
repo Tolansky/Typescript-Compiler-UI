@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,12 +26,18 @@ namespace tsCompiler
         private void button1_Click(object sender, EventArgs e)
         {
 
-            MessageBox.Show(runCmd("dir"));
+            MessageBox.Show(runCmd("tsc " + listFolderFiles.SelectedItem.ToString(), listFolders.SelectedItem.ToString()));
             
         }
 
 
-        public string runCmd(string cmd)
+        /// <summary>
+        /// Run a command and return the results in a string
+        /// </summary>
+        /// <param name="cmd">Command to run</param>
+        /// <param name="workingDirectory">Working directory</param>
+        /// <returns></returns>
+        public string runCmd(string cmd, string workingDirectory = @"c:\")
         {
             //Create process
             var pProcess = new System.Diagnostics.Process
@@ -38,19 +45,64 @@ namespace tsCompiler
                 StartInfo =
                 {
                     FileName = "cmd.exe",
-                    Arguments = "/C "+cmd,
+                    Arguments = "/C " + cmd,
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
-                    WorkingDirectory = "C:\\"
-                }
+                    WorkingDirectory = workingDirectory,
+                    WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden
+                }                
             };
+            
             pProcess.Start();
             string results = pProcess.StandardOutput.ReadToEnd();
-
             pProcess.Close();
-
-            //Console.WriteLine("done");
+            
             return results;
+        }
+
+
+        //Open a folder
+        private void cmdOpenFolder_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+
+            DialogResult result = fbd.ShowDialog();
+
+            if (!string.IsNullOrWhiteSpace(fbd.SelectedPath))
+            {
+                string[] files = Directory.GetFiles(fbd.SelectedPath);            
+                listFolders.Items.Add(fbd.SelectedPath);
+            }
+        }
+
+        //
+        private void listFolderFiles_SelectedIndexChanged(object sender, EventArgs e)
+        {            
+            string filename = listFolderFiles.SelectedItem.ToString();
+        }
+
+
+        //Select a folder
+        private void listFolders_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string folder = listFolders.SelectedItem.ToString();    // The folder selected
+            string[] files = Directory.GetFiles(@folder);           // The files inside it
+
+            //Clear the list and add the new files
+            listFolderFiles.Items.Clear();
+            for (int i = 0; i < files.Length;i++)
+            {
+                // filename
+                string filename = files[i];
+                filename = filename.Replace(folder + "\\", "");
+
+                if(filename.ToUpper().EndsWith(".TS"))
+                {
+                    // Add to the list
+                    listFolderFiles.Items.Add(filename);
+                }
+            }
+            
         }
     }
 }
