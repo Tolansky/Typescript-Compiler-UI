@@ -25,8 +25,17 @@ namespace tsCompiler
 
         private void button1_Click(object sender, EventArgs e)
         {
-
-            MessageBox.Show(runCmd("tsc " + listFolderFiles.SelectedItem.ToString(), listFolders.SelectedItem.ToString()));
+            string returnString = runCmd("tsc " + listFolderFiles.SelectedItem.ToString(), listFolders.SelectedItem.ToString());
+            if(returnString.Trim() == "")
+            {
+                //everything went fine!
+            }
+            else
+            {
+                string br = (char)13 + "";
+                MessageBox.Show("Errors were found: " + br + returnString);
+            }
+            
             
         }
 
