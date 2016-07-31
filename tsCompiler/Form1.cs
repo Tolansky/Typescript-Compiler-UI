@@ -7,12 +7,15 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 using System.Windows.Forms;
 
 namespace tsCompiler
 {
     public partial class Form1 : Form
     {
+        static private string saveFileName = "folders.txt";
+
         public Form1()
         {
             InitializeComponent();
@@ -20,6 +23,28 @@ namespace tsCompiler
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            loadFolders();
+        }
+
+        public void loadFolders()
+        {
+            string[] folders = System.IO.File.ReadAllLines(@saveFileName);
+            for (int i = 0; i < folders.Length; i++)
+            {
+                listFolders.Items.Add(folders[i]);
+            }
+
+        }
+
+        public void saveFolders()
+        {
+            string[] folders = new string[listFolders.Items.Count];
+            for (int i = 0; i < listFolders.Items.Count; i++)
+            {
+                folders[i] = listFolders.Items[i].ToString();
+            }
+
+            System.IO.File.WriteAllLines(@saveFileName, folders);
 
         }
 
@@ -37,7 +62,7 @@ namespace tsCompiler
                     string br = (char)13 + "";
                     MessageBox.Show("Errors were found: " + br + returnString);
                 }
-            }            
+            }
         }
 
 
@@ -83,6 +108,7 @@ namespace tsCompiler
                 string[] files = Directory.GetFiles(fbd.SelectedPath);            
                 listFolders.Items.Add(fbd.SelectedPath);
             }
+            saveFolders();
         }
 
         //
@@ -125,6 +151,7 @@ namespace tsCompiler
             {                
                 listFolders.Items.RemoveAt(listFolders.SelectedIndex);
             }
+            saveFolders();
         }
 
         private void listFolderFiles_SelectedIndexChanged_1(object sender, EventArgs e)
