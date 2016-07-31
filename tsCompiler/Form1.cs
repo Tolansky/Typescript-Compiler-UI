@@ -79,7 +79,7 @@ namespace tsCompiler
         }
 
         //Compile function
-        public string compile(string folder, string file)
+        public static string compile(string folder, string file)
         {
             return runCmd("tsc " + file, folder);
         }
@@ -91,7 +91,7 @@ namespace tsCompiler
         /// <param name="cmd">Command to run</param>
         /// <param name="workingDirectory">Working directory</param>
         /// <returns></returns>
-        public string runCmd(string cmd, string workingDirectory = @"c:\")
+        public static string runCmd(string cmd, string workingDirectory = @"c:\")
         {
             //Create process
             var pProcess = new System.Diagnostics.Process
@@ -101,6 +101,7 @@ namespace tsCompiler
                     FileName = "cmd.exe",
                     Arguments = "/C " + cmd,
                     UseShellExecute = false,
+                    CreateNoWindow = true,
                     RedirectStandardOutput = true,
                     WorkingDirectory = workingDirectory,
                     WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden
@@ -238,10 +239,12 @@ namespace tsCompiler
             {
                 string fullPath = e.FullPath;
                 string dir = Path.GetDirectoryName(fullPath);
+                //string file = fullPath.Replace(dir, "");
                 if (folders.ContainsKey(dir))
                 {
                     fsw.EnableRaisingEvents = false;
-                    MessageBox.Show("File: " + e.FullPath + " " + e.ChangeType);
+                    string file = fullPath.Replace(dir + "\\", "");
+                    compile(dir + "\\", file);
                 }
             }
             finally
