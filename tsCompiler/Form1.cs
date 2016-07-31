@@ -94,24 +94,37 @@ namespace tsCompiler
         //Select a folder
         private void listFolders_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string folder = listFolders.SelectedItem.ToString();    // The folder selected
-            string[] files = Directory.GetFiles(@folder);           // The files inside it
-
             //Clear the list and add the new files
             listFolderFiles.Items.Clear();
-            for (int i = 0; i < files.Length;i++)
-            {
-                // filename
-                string filename = files[i];
-                filename = filename.Replace(folder + "\\", "");
 
-                if(filename.ToUpper().EndsWith(".TS"))
+
+            if (listFolders.SelectedItems.Count > 0)
+            {
+                string folder = listFolders.SelectedItem.ToString();    // The folder selected
+                string[] files = Directory.GetFiles(@folder);           // The files inside it
+                
+                for (int i = 0; i < files.Length; i++)
                 {
-                    // Add to the list
-                    listFolderFiles.Items.Add(filename);
+                    // filename
+                    string filename = files[i];
+                    filename = filename.Replace(folder + "\\", "");
+
+                    if (filename.ToUpper().EndsWith(".TS"))
+                    {
+                        // Add to the list
+                        listFolderFiles.Items.Add(filename);
+                    }
                 }
             }
-            
+
+        }
+
+        private void btnRemoveFolder_Click(object sender, EventArgs e)
+        {
+            if(listFolders.SelectedItems.Count > 0)
+            {                
+                listFolders.Items.RemoveAt(listFolders.SelectedIndex);
+            }
         }
     }
 }
