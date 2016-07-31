@@ -141,16 +141,7 @@ namespace tsCompiler
         //Open a folder
         private void cmdOpenFolder_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog fbd = new FolderBrowserDialog();
-
-            DialogResult result = fbd.ShowDialog();
-
-            if (!string.IsNullOrWhiteSpace(fbd.SelectedPath))
-            {
-                string[] files = Directory.GetFiles(fbd.SelectedPath);            
-                listFolders.Items.Add(fbd.SelectedPath);
-            }
-            saveFolders();
+          
         }
         
         //Select a folder
@@ -182,11 +173,7 @@ namespace tsCompiler
         //Remove a folder
         private void btnRemoveFolder_Click(object sender, EventArgs e)
         {
-            if(listFolders.SelectedItems.Count > 0)
-            {                
-                listFolders.Items.RemoveAt(listFolders.SelectedIndex);
-            }
-            saveFolders();
+            
         }
 
         //Select a file
@@ -275,5 +262,51 @@ namespace tsCompiler
             }
         }
 
+
+        private void plusOut(object source, EventArgs e)
+        {
+            lblPlus.BackColor = Color.FromArgb(255, 46, 204, 113);
+        }
+
+        private void plusHover(object sender, EventArgs e)
+        {
+            lblPlus.BackColor = Color.FromArgb(255, 46, 204, 13);
+        }
+
+        private void minusOut(object source, EventArgs e)
+        {
+            lblMinus.BackColor = Color.FromArgb(149, 165, 166);
+        }
+
+        private void minusHover(object sender, EventArgs e)
+        {
+            lblMinus.BackColor = Color.FromArgb(149, 165, 206);
+        }
+
+
+        //Plus click
+        private void lblPlus_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+
+            DialogResult result = fbd.ShowDialog();
+
+            if (!string.IsNullOrWhiteSpace(fbd.SelectedPath))
+            {
+                string[] files = Directory.GetFiles(fbd.SelectedPath);
+                listFolders.Items.Add(fbd.SelectedPath);
+            }
+            saveFolders();
+        }
+
+        private void lblMinus_Click(object sender, EventArgs e)
+        {
+            if (listFolders.SelectedItems.Count > 0)
+            {
+                listFolders.Items.RemoveAt(listFolders.SelectedIndex);
+            }
+            saveFolders();
+        }
     }
+
 }
