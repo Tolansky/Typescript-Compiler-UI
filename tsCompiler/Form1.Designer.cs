@@ -60,7 +60,7 @@
             this.listFolders.FormattingEnabled = true;
             this.listFolders.Location = new System.Drawing.Point(12, 12);
             this.listFolders.Name = "listFolders";
-            this.listFolders.Size = new System.Drawing.Size(227, 212);
+            this.listFolders.Size = new System.Drawing.Size(256, 212);
             this.listFolders.TabIndex = 1;
             this.listFolders.SelectedIndexChanged += new System.EventHandler(this.listFolders_SelectedIndexChanged);
             // 
@@ -83,10 +83,10 @@
             // listFolderFiles
             // 
             this.listFolderFiles.FormattingEnabled = true;
-            this.listFolderFiles.Location = new System.Drawing.Point(245, 12);
+            this.listFolderFiles.Location = new System.Drawing.Point(274, 12);
             this.listFolderFiles.Name = "listFolderFiles";
             this.listFolderFiles.SelectionMode = System.Windows.Forms.SelectionMode.None;
-            this.listFolderFiles.Size = new System.Drawing.Size(161, 212);
+            this.listFolderFiles.Size = new System.Drawing.Size(132, 212);
             this.listFolderFiles.TabIndex = 4;
             this.listFolderFiles.SelectedIndexChanged += new System.EventHandler(this.listFolderFiles_SelectedIndexChanged_1);
             // 
