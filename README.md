@@ -26,6 +26,7 @@
     npm install -g typescript
     ```
 - That's it!
+
 ### License
 Apache 2.0
 
